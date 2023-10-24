@@ -1,29 +1,36 @@
 import React from 'react';
-import { Navbar, Nav, Button } from 'react-bootstrap';
-import { Link, useNavigate } from 'react-router-dom'; 
 
+import { Link } from 'react-router-dom'; 
+import CTAButton from './core/CTAButton';
 function AppNavbar() {
-  const navigate = useNavigate();
+ 
   return (
-    <Navbar bg="light" expand="lg">
-      <Navbar.Brand href="/">Welcome to Navbar</Navbar.Brand>
-      <Navbar.Toggle aria-controls="basic-navbar-nav" />
-      <Navbar.Collapse id="basic-navbar-nav">
-        <Nav className="mr-auto">
-          <h1>Here ARE TWO OPTIONS LOGIN AND SIGNUP</h1>
-          <Link to="/login">
-            <Button variant="outline-primary" className="mx-2">
-              Login
-            </Button>
-          </Link>
-          <Link to="/signup">
-            <Button variant="outline-success" className="mx-2">
-              Signup
-            </Button>
-          </Link>
-        </Nav>
-      </Navbar.Collapse>
-    </Navbar>
+ 
+    <div>
+        <div className="relative mx-auto flex w-11/12 max-w-maxContent flex-col items-center justify-between gap-8 text-white">
+        <Link to={"/"}>
+          <div className="group mx-auto mt-16 w-fit rounded-full bg-richblack-800 p-1 font-bold text-richblack-200 drop-shadow-[0_1.5px_rgba(255,255,255,0.25)] transition-all duration-200 hover:scale-95 hover:drop-shadow-none">
+            <div className="flex flex-row items-center gap-2 rounded-full px-10 py-[5px] transition-all duration-200 group-hover:bg-richblack-900">
+              <p>Welcome to the page</p>
+             
+            </div>
+          </div>
+        </Link>
+
+        
+      
+        <div className="mt-8 flex flex-row gap-7">
+          <CTAButton active={true} linkto={"/signup"}>
+            Learn More
+          </CTAButton>
+          <CTAButton active={false} linkto={"/login"}>
+            Book a Demo
+          </CTAButton>
+        </div>
+         </div>
+
+    </div>
+   
   );
 }
 

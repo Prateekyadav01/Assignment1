@@ -1,179 +1,73 @@
-import { useState } from "react"
-import { toast } from "react-hot-toast"
-import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai"
-import { useDispatch } from "react-redux"
-import { useNavigate } from "react-router-dom"
-
-import { sendOtp } from "../services/operations/authAPI"
-import { setSignupData } from "../slices/authSlice"
-
-
-function SignupForm() {
-  const navigate = useNavigate()
-  const dispatch = useDispatch()
-
- 
- 
-
-  const [formData, setFormData] = useState({
-    firstName: "",
-    lastName: "",
-    email: "",
-    password: "",
-    confirmPassword: "",
-  })
-
-  const [showPassword, setShowPassword] = useState(false)
-  const [showConfirmPassword, setShowConfirmPassword] = useState(false)
-
-  const { firstName, lastName, email, password, confirmPassword } = formData
+import React from 'react'
+import './Signup.css'
+import TextField from '@mui/material/TextField';
+import IconButton from '@mui/material/IconButton';
+import OutlinedInput from '@mui/material/OutlinedInput';
+import InputAdornment from '@mui/material/InputAdornment';
+import Visibility from '@mui/icons-material/Visibility';
+import VisibilityOff from '@mui/icons-material/VisibilityOff';
+import { InputLabel } from '@mui/material';
+import FormControl from '@mui/material/FormControl';
 
 
-  const handleOnChange = (e) => {
-    setFormData((prevData) => ({
-      ...prevData,
-      [e.target.name]: e.target.value,
-    }))
-  }
+export const SignUp = () => {
 
+  const [showPassword, setShowPassword] = React.useState(false);
 
-  const handleOnSubmit = (e) => {
-    e.preventDefault()
+  const handleClickShowPassword = () => setShowPassword((show) => !show);
 
-    if (password !== confirmPassword) {
-      toast.error("Passwords Do Not Match")
-      return
-    }
-    const signupData = {
-      ...formData,
-      
-    }
-
-
-    dispatch(setSignupData(signupData))
-   
-    dispatch(sendOtp(formData.email, navigate))
-
-    // Reset
-    setFormData({
-      firstName: "",
-      lastName: "",
-      email: "",
-      password: "",
-      confirmPassword: "",
-    })
-
-  }
-
+  const handleMouseDownPassword = (event) => {
+    event.preventDefault();
+  };
 
   return (
-    <div>
-  
-      {/* Form */}
-      <form onSubmit={handleOnSubmit} className="flex w-full flex-col gap-y-4">
-        <div className="flex gap-x-4">
-          <label>
-            <p className="mb-1 text-[0.875rem] leading-[1.375rem] text-richblack-5">
-              First Name <sup className="text-pink-200">*</sup>
-            </p>
-            <input
-              required
-              type="text"
-              name="firstName"
-              value={firstName}
-              onChange={handleOnChange}
-              placeholder="Enter first name"
-              className="form-style w-full"
+    <>
+      <div className='signuppage'>
+        <div className='Box'>
+          <div className='signupHeader'>
+          Lets Register <br/> Account
+          </div>
+          <div className='signupsubHeader'>
+          Hello user , you have<br/>
+          a greatful journey
+          </div>
+          <div className='signupUser'>
+          <TextField type='name' name='name' id="outlined-basic" label="Name" variant="outlined" />
+          <TextField type='name' name='lastname' id="outlined-basic" label="Last Name" variant="outlined" />
+          <TextField type='tel' name='tel' id="outlined-basic" label="Phone" variant="outlined" />
+          <TextField type='email' name='email' id="outlined-basic" label="Email" variant="outlined" />
+          <FormControl variant="outlined">
+            <InputLabel htmlFor="outlined-adornment-password">Password</InputLabel>
+            <OutlinedInput
+              id="outlined-adornment-password"
+              name='password'
+              type={showPassword ? 'text' : 'password'}
+              endAdornment={
+                <InputAdornment position="end">
+                  <IconButton
+                    aria-label="toggle password visibility"
+                    onClick={handleClickShowPassword}
+                    onMouseDown={handleMouseDownPassword}
+                    edge="end"
+                  >
+                    {showPassword ? <VisibilityOff /> : <Visibility />}
+                  </IconButton>
+                </InputAdornment>
+              }
+              label="Password"
             />
-          </label>
-          <label>
-            <p className="mb-1 text-[0.875rem] leading-[1.375rem] text-richblack-5">
-              Last Name <sup className="text-pink-200">*</sup>
-            </p>
-            <input
-              required
-              type="text"
-              name="lastName"
-              value={lastName}
-              onChange={handleOnChange}
-              placeholder="Enter last name"
-              className="form-style w-full"
-            />
-          </label>
+          </FormControl>
+          
+          <btn className='signupbtn'>Sign in</btn>
+          
+         
+          <span className='confirmation'>Already  have an account ?    <span className='login'>Login</span>  </span>
         </div>
-        <label className="w-full">
-          <p className="mb-1 text-[0.875rem] leading-[1.375rem] text-richblack-5">
-            Email Address <sup className="text-pink-200">*</sup>
-          </p>
-          <input
-            required
-            type="text"
-            name="email"
-            value={email}
-            onChange={handleOnChange}
-            placeholder="Enter email address"
-            className="form-style w-full"
-          />
-        </label>
-        <div className="flex gap-x-4">
-          <label className="relative">
-            <p className="mb-1 text-[0.875rem] leading-[1.375rem] text-richblack-5">
-              Create Password <sup className="text-pink-200">*</sup>
-            </p>
-            <input
-              required
-              type={showPassword ? "text" : "password"}
-              name="password"
-              value={password}
-              onChange={handleOnChange}
-              placeholder="Enter Password"
-              className="form-style w-full !pr-10"
-            />
-            <span
-              onClick={() => setShowPassword((prev) => !prev)}
-              className="absolute right-3 top-[38px] z-[10] cursor-pointer"
-            >
-              {showPassword ? (
-                <AiOutlineEyeInvisible fontSize={24} fill="#AFB2BF" />
-              ) : (
-                <AiOutlineEye fontSize={24} fill="#AFB2BF" />
-              )}
-            </span>
-          </label>
-          <label className="relative">
-            <p className="mb-1 text-[0.875rem] leading-[1.375rem] text-richblack-5">
-              Confirm Password <sup className="text-pink-200">*</sup>
-            </p>
-            <input
-              required
-              type={showConfirmPassword ? "text" : "password"}
-              name="confirmPassword"
-              value={confirmPassword}
-              onChange={handleOnChange}
-              placeholder="Confirm Password"
-              className="form-style w-full !pr-10"
-            />
-            <span
-              onClick={() => setShowConfirmPassword((prev) => !prev)}
-              className="absolute right-3 top-[38px] z-[10] cursor-pointer"
-            >
-              {showConfirmPassword ? (
-                <AiOutlineEyeInvisible fontSize={24} fill="#AFB2BF" />
-              ) : (
-                <AiOutlineEye fontSize={24} fill="#AFB2BF" />
-              )}
-            </span>
-          </label>
+       
         </div>
-        <button
-          type="submit"
-          className="mt-6 rounded-[8px] bg-yellow-50 py-[8px] px-[12px] font-medium text-richblack-900"
-        >
-          Create Account
-        </button>
-      </form>
-    </div>
+      </div>
+    </>
   )
 }
 
-export default SignupForm
+

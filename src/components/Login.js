@@ -1,85 +1,78 @@
-import { useState } from "react"
-import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai"
-import { useDispatch } from "react-redux"
-import { Link, useNavigate } from "react-router-dom"
+import React from 'react'
+import './login.css'
+import TextField from '@mui/material/TextField';
+import IconButton from '@mui/material/IconButton';
+import OutlinedInput from '@mui/material/OutlinedInput';
+import InputAdornment from '@mui/material/InputAdornment';
+import Visibility from '@mui/icons-material/Visibility';
+import VisibilityOff from '@mui/icons-material/VisibilityOff';
+import { InputLabel } from '@mui/material';
+import FormControl from '@mui/material/FormControl';
 
-import { login } from "../services/operations/authAPI"
+import { FcGoogle } from "react-icons/fc";
+import { CgFacebook } from "react-icons/cg";
+import { AiFillApple } from "react-icons/ai";
+export const Login = () => {
 
-function LoginForm() {
-  const navigate = useNavigate()
-  const dispatch = useDispatch()
-  const [formData, setFormData] = useState({
-    email: "",
-    password: "",
-  })
+  const [showPassword, setShowPassword] = React.useState(false);
 
-  const [showPassword, setShowPassword] = useState(false)
+  const handleClickShowPassword = () => setShowPassword((show) => !show);
 
-  const { email, password } = formData
-
-  const handleOnChange = (e) => {
-    setFormData((prevData) => ({
-      ...prevData,
-      [e.target.name]: e.target.value,
-    }))
-  }
-
-  const handleOnSubmit = (e) => {
-    e.preventDefault()
-    dispatch(login(email, password, navigate))
-  }
-
+  const handleMouseDownPassword = (event) => {
+    event.preventDefault();
+  };
   return (
-    <form
-      onSubmit={handleOnSubmit}
-      className="mt-6 flex w-full flex-col gap-y-4"
-    >
-      <label className="w-full">
-        <p className="mb-1 text-[0.875rem] leading-[1.375rem] text-richblack-5">
-          Email Address <sup className="text-pink-200">*</sup>
-        </p>
-        <input
-          required
-          type="text"
-          name="email"
-          value={email}
-          onChange={handleOnChange}
-          placeholder="Enter email address"
-          className="form-style w-full"
-        />
-      </label>
-      <label className="relative">
-        <p className="mb-1 text-[0.875rem] leading-[1.375rem] text-richblack-5">
-          Password <sup className="text-pink-200">*</sup>
-        </p>
-        <input
-          required
-          type={showPassword ? "text" : "password"}
-          name="password"
-          value={password}
-          onChange={handleOnChange}
-          placeholder="Enter Password"
-          className="form-style w-full !pr-10"
-        />
-        <span
-          onClick={() => setShowPassword((prev) => !prev)}
-          className="absolute right-3 top-[38px] z-[10] cursor-pointer"
-        >
-          {showPassword ? (
-            <AiOutlineEyeInvisible fontSize={24} fill="#AFB2BF" />
-          ) : (
-            <AiOutlineEye fontSize={24} fill="#AFB2BF" />
-          )}
-        </span>
-      </label>
-      <button
-        type="submit"
-        className="mt-6 rounded-[8px] bg-yellow-50 py-[8px] px-[12px] font-medium text-richblack-900"
-      >
-        Login
-      </button>
-    </form>
+    <>
+      <div className='loginpage'>
+        <div className='Box'>
+          <div className='loginHeader'>
+            lets Sign you In
+          </div>
+          <div className='loginsubHeader'>
+            Welcome Back , <br />
+            You have been missed
+          </div>
+          <div className='loginUser'>
+          <TextField id="outlined-basic" label="Name ,Phone No. & username" variant="outlined" />
+          <FormControl variant="outlined">
+            <InputLabel htmlFor="outlined-adornment-password">Password</InputLabel>
+            <OutlinedInput
+              id="outlined-adornment-password"
+              type={showPassword ? 'text' : 'password'}
+              endAdornment={
+                <InputAdornment position="end">
+                  <IconButton
+                    aria-label="toggle password visibility"
+                    onClick={handleClickShowPassword}
+                    onMouseDown={handleMouseDownPassword}
+                    edge="end"
+                  >
+                    {showPassword ? <VisibilityOff /> : <Visibility />}
+                  </IconButton>
+                </InputAdornment>
+              }
+              label="Password"
+            />
+          </FormControl>
+          <span className='forget'>forget Password ?</span>
+          <btn className='signinbtn'>Sign in</btn>
+          <div className='or'>
+            <div className='line'></div>
+            <div className='ortext'>or</div>
+            <div className='line'></div>
+          </div>
+          <div className='icons'>
+            <a href='#' target='_blank'> <FcGoogle className='icon'/></a>
+            <a href='#' target='_blank'>  <CgFacebook className='icon2'/></a>
+            <a href='#' target='_blank'>   <AiFillApple className='icon'/></a>
+          </div>
+          <span className='confirmation'>Don’t have an account ? <span className='regis'>Register Now</span>  </span>
+        </div>
+       
+        </div>
+      </div>
+    </>
   )
 }
 
-export default LoginForm
+
